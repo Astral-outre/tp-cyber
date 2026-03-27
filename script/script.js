@@ -80,3 +80,74 @@ const fromBase64 = (b64) => {
   return new TextDecoder().decode(bytes);
 };
 
+/* ════════════════════════════════════════════════════════════
+   SECTION 2 — Algorithme (chiffrement / déchiffrement)
+════════════════════════════════════════════════════════════ */
+
+/**
+ * CHIFFREMENT — Transforme un message clair en texte chiffré (Base64).
+ *
+ * Étapes dans l'ordre :
+ *   1. Vigenère Unicode : cp += cle[i % cle.length]  (décalage par clé)
+ *   2. Décalage pos.    : cp += i * 3                 (décalage par position)
+ *   3. Inversion        : array.reverse()
+ *   4. Base64           : toBase64(fromCodePoints(reversed))
+ *
+ * @param {string} texte — Message en clair (supporte tout l'Unicode)
+ * @param {string} cle   — Clé secrète (au moins 1 caractère)
+ * @returns {string}      — Message chiffré encodé en Base64
+ */
+const chiffrerMessage = (texte, cle) => {
+  // Convertit le message et la clé en tableaux de code points
+  const points    = toCodePoints(texte);
+  const clePoints = toCodePoints(cle);
+
+  // ── Étapes 1 & 2 : Vigenère Unicode + décalage positionnel ──
+  const shifted = points.map((cp, i) => {
+    const vigShift = clePoints[i % clePoints.length]; // clé cyclée
+    const posShift = i * 3;                           // décalage unique par position
+    return cp + vigShift + posShift;                  // nouveau code point décalé
+  });
+
+  // ── Étape 3 : Inversion du tableau de code points ──
+  const reversed = shifted.reverse();
+
+  // ── Étape 4 : Reconversion en chaîne puis encodage Base64 ──
+  return toBase64(fromCodePoints(reversed));
+};
+
+/**
+ * DÉCHIFFREMENT — Reconstruit le message original depuis le texte chiffré.
+ *
+ * Étapes en ordre INVERSE du chiffrement :
+ *   4. Décodage Base64  : fromBase64()
+ *   3. Inversion        : array.reverse()  (retrouve l'ordre original)
+ *   2. Retrait pos.     : cp -= i * 3
+ *   1. Vigenère inverse : cp -= cle[i % cle.length]
+ *
+ *     Une mauvaise clé produira un texte corrompu sans lever d'exception.
+ *     La validation visuelle est assurée côté UI.
+ *
+ * @param {string} texteChiffre — Texte chiffré en Base64
+ * @param {string} cle          — Clé secrète utilisée lors du chiffrement
+ * @returns {string}             — Message en clair original
+ */
+const dechiffrerMessage = (texteChiffre, cle) => {
+  // ── Étape 4 inverse : décodage Base64 → chaîne ──
+  const decoded = fromBase64(texteChiffre);
+  const clePoints = toCodePoints(cle);
+
+  // ── Étape 3 inverse : inversion pour retrouver l'ordre du chiffrement ──
+  const reversed = toCodePoints(decoded).reverse();
+
+  // ── Étapes 2 & 1 inverses : retrait décalage pos. + Vigenère inverse ──
+  const original = reversed.map((cp, i) => {
+    const vigShift = clePoints[i % clePoints.length]; // même clé cyclée
+    const posShift = i * 3;                           // même calcul de position
+    return cp - vigShift - posShift;                  // on soustrait ce qui a été ajouté
+  });
+
+  return fromCodePoints(original);
+};
+
+
