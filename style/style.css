@@ -1,0 +1,102 @@
+/* =====================================================
+   style.css — Agent Cipher / VigShift+
+   Thème : dark cyberpunk, palette bleue/violette
+   Responsive : breakpoint à 620px
+===================================================== */
+
+
+/* ── Reset minimal + box-sizing universel ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ── Variables CSS (design tokens) ──────────────────
+   Modifiez ces valeurs pour changer tout le thème
+─────────────────────────────────────────────────── */
+:root {
+  /* Fonds */
+  --bg:       #0d0f14;   /* fond de page principal */
+  --surface:  #161b27;   /* fond des cards/inputs */
+  --surface2: #1e2636;   /* fond des éléments secondaires */
+  --border:   #2a3550;   /* couleur des bordures */
+
+  /* Couleurs d'accent */
+  --accent:   #4f8ef7;   /* bleu principal (chiffrement) */
+  --accent2:  #7c3aed;   /* violet (déchiffrement) */
+  --success:  #22c55e;   /* vert (succès / résultat déchiffré) */
+  --danger:   #ef4444;   /* rouge (erreurs) */
+
+  /* Typographie */
+  --text:       #e2e8f0; /* texte principal */
+  --text-muted: #64748b; /* texte secondaire / labels */
+
+  /* Utilitaires */
+  --radius:    12px;
+  --radius-sm:  8px;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --font:      'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+}
+
+
+/* ── Base : html & body ─────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth; /* défilement fluide sur les ancres */
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+
+  /* Centre le conteneur verticalement et horizontalement */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+
+  /* Halos de couleur subtils en arrière-plan */
+  background-image:
+          radial-gradient(ellipse at 20% 10%, rgba(79, 142, 247, 0.06) 0%, transparent 60%),
+          radial-gradient(ellipse at 80% 90%, rgba(124, 58, 237, 0.06) 0%, transparent 60%);
+}
+
+
+/* ── Conteneur principal ────────────────────────── */
+.container {
+  width: 100%;
+  max-width: 860px;          /* largeur max sur grand écran */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;               /* espace uniforme entre les sections */
+}
+
+
+/* ── Header ─────────────────────────────────────── */
+header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+
+/* Emoji logo avec halo lumineux */
+.logo {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 12px rgba(79, 142, 247, 0.5));
+}
+
+/* Titre en dégradé bleu → violet */
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.04em;
+}

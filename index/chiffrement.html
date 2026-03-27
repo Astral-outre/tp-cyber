@@ -109,6 +109,37 @@
 
 </div><!-- /container -->
 
+<!-- ===== PARTIE 2 : Déchiffrement César – Force Brute ===== -->
+<section id="partie2">
+
+  <h2>🔐 Mission 2 — Déchiffrement : Chiffre de César</h2>
+
+  <p>
+    Nos services ont intercepté un message ennemi. L'ennemi utilise le
+    <strong>Chiffre de César</strong> (décalage de l'alphabet), mais la clé est inconnue.<br>
+    Votre objectif : générer toutes les <strong>25 combinaisons possibles</strong>
+    et identifier visuellement le message qui a du sens.
+  </p>
+
+  <div id="encrypted-block">
+    <span class="label">Message intercepté :</span>
+    <p id="encrypted-msg">
+      QJ HTIJ XJHWJY JXY HFMJ IFSX QJ KNHMNJW OFAFXHWNUY
+    </p>
+  </div>
+
+  <button id="brute-btn" onclick="bruteForce()">
+    ⚡ Lancer la Force Brute
+  </button>
+
+  <div id="results-container">
+    <h3>📋 Résultats — 25 décalages possibles</h3>
+    <p class="hint">💡 Cliquez sur une ligne pour la mettre en évidence si elle vous semble lisible.</p>
+    <div id="results-list"></div>
+  </div>
+
+</section>
+
 <!-- ── Script principal chargé en dernier pour accéder au DOM ── -->
 <script src="../script/script.js"></script>
 
