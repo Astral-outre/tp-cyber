@@ -177,6 +177,123 @@ const showToast = (message, type = '') => {
     toast.className = 'toast'; // retire .visible → déclenche l'animation de sortie
   }, 3000);
 };
+/*════════════════════════════════════════════════════════════
+   SECTION 4 â€” Initialisation et gestion des Ã©vÃ©nements DOM
+════════════════════════════════════════════════════════════ */
+
+// Attend que le DOM soit entiÃ¨rement chargÃ© avant de chercher les Ã©lÃ©ments
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* â”€â”€ RÃ©cupÃ©ration des Ã©lÃ©ments du DOM â”€â”€ */
+  const keyInput        = document.getElementById('keyInput');        // champ clÃ©
+  const plainText       = document.getElementById('plainText');       // textarea message clair
+  const cipherText      = document.getElementById('cipherText');      // textarea message chiffrÃ©
+  const encryptBtn      = document.getElementById('encryptBtn');      // bouton Chiffrer
+  const decryptBtn      = document.getElementById('decryptBtn');      // bouton DÃ©chiffrer
+  const resultSection   = document.getElementById('resultSection');   // section rÃ©sultat (cachÃ©e)
+  const decryptedResult = document.getElementById('decryptedResult'); // div rÃ©sultat dÃ©chiffrÃ©
+  const infoToggle      = document.getElementById('infoToggle');      // bouton toggle accordÃ©on
+  const infoContent     = document.getElementById('infoContent');     // contenu accordÃ©on
 
 
+  /* â”€â”€ AccordÃ©on : affiche/masque l'explication de l'algorithme â”€â”€ */
+  infoToggle.addEventListener('click', () => {
+    // Lit l'Ã©tat courant depuis l'attribut ARIA (accessibilitÃ©)
+    const expanded = infoToggle.getAttribute('aria-expanded') === 'true';
 
+    // Inverse l'Ã©tat
+    infoToggle.setAttribute('aria-expanded', String(!expanded));
+
+    // L'attribut HTML `hidden` gÃ¨re la visibilitÃ© sans CSS supplÃ©mentaire
+    infoContent.hidden = expanded;
+  });
+
+
+  /* â”€â”€ Bouton Chiffrer â”€â”€ */
+  encryptBtn.addEventListener('click', () => {
+    const message = plainText.value.trim(); // rÃ©cupÃ¨re et nettoie le message
+    const cle     = keyInput.value.trim();  // rÃ©cupÃ¨re et nettoie la clÃ©
+
+    // Validation : message vide
+    if (!message) {
+      showToast(' Veuillez saisir un message.', 'error');
+      return;
+    }
+
+    // Validation : clÃ© vide (nÃ©cessaire pour l'algorithme)
+    if (!cle) {
+      showToast('ï¸ Veuillez entrer une clÃ© secrÃ¨te.', 'error');
+      return;
+    }
+
+    try {
+      // Appel de l'algorithme de chiffrement
+      const resultat = chiffrerMessage(message, cle);
+
+      // Affiche le rÃ©sultat dans le textarea readonly
+      cipherText.value = resultat;
+
+      // Masque l'Ã©ventuel rÃ©sultat de dÃ©chiffrement prÃ©cÃ©dent
+      resultSection.hidden = true;
+      decryptedResult.textContent = '';
+
+      showToast(' Message chiffrÃ© avec succÃ¨s !', 'success');
+
+    } catch (err) {
+      // Capture les erreurs inattendues (ex. : caractÃ¨re invalide)
+      showToast(' Erreur lors du chiffrement.', 'error');
+      console.error('[VigShift+] Erreur chiffrement :', err);
+    }
+  });
+
+
+  /* â”€â”€ Bouton DÃ©chiffrer â”€â”€ */
+  decryptBtn.addEventListener('click', () => {
+    const chiffre = cipherText.value.trim(); // rÃ©cupÃ¨re le texte chiffrÃ©
+    const cle     = keyInput.value.trim();   // rÃ©cupÃ¨re la clÃ©
+
+    // Validation : rien Ã  dÃ©chiffrer
+    if (!chiffre) {
+      showToast(' Aucun message chiffrÃ© Ã  dÃ©chiffrer.', 'error');
+      return;
+    }
+
+    // Validation : clÃ© manquante
+    if (!cle) {
+      showToast(' Veuillez entrer la clÃ© secrÃ¨te.', 'error');
+      return;
+    }
+
+    try {
+      // Appel de l'algorithme de dÃ©chiffrement
+      const resultat = dechiffrerMessage(chiffre, cle);
+
+      // Injecte le rÃ©sultat dans la div de vÃ©rification
+      decryptedResult.textContent = resultat;
+
+      // Rend visible la section rÃ©sultat
+      resultSection.hidden = false;
+
+      showToast(' Message dÃ©chiffrÃ© avec succÃ¨s !', 'success');
+
+    } catch (err) {
+      // Erreur frÃ©quente : Base64 invalide si la clÃ© est mauvaise
+      showToast(' ClÃ© incorrecte ou message corrompu.', 'error');
+      console.error('[VigShift+] Erreur dÃ©chiffrement :', err);
+    }
+  });
+
+
+  /* â”€â”€ Raccourcis clavier : Ctrl + EntrÃ©e â”€â”€ */
+
+  // Dans le textarea message clair â†’ dÃ©clenche le chiffrement
+  plainText.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') encryptBtn.click();
+  });
+
+  // Dans le textarea message chiffrÃ© â†’ dÃ©clenche le dÃ©chiffrement
+  cipherText.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') decryptBtn.click();
+  });
+
+});
