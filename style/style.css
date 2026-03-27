@@ -402,4 +402,132 @@ h1 {
     padding-top: 0;
     transform: rotate(90deg);
   }
+
+  body {
+    font-family: 'Courier New', monospace;
+    background: #0d0d0d;
+    color: #00ff88;
+    padding: 2rem;
+  }
+
+  #partie2 {
+    background: #0d0d0d;
+    color: #00ff88;
+    padding: 2rem;
+    margin-top: 3rem;
+    border: 1px solid #00ff88;
+    border-radius: 8px;
+    max-width: 900px;
+    margin-inline: auto;
+  }
+
+  h2 {
+    color: #ff4444;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border-bottom: 1px solid #ff4444;
+    padding-bottom: 0.5rem;
+  }
+
+  h3 {
+    color: #00ff88;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #aaa;
+    margin-bottom: 1rem;
+  }
+
+  #encrypted-block {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .label {
+    color: #ff4444;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  #encrypted-msg {
+    color: #ffcc00;
+    font-size: 1.1rem;
+    margin: 0.5rem 0 0;
+    word-break: break-all;
+  }
+
+  #brute-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  #brute-btn:hover {
+    background: #cc0000;
+  }
+
+  #results-container {
+    display: none;
+  }
+
+  .hint {
+    color: #777;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .result-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 0.4rem;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .result-row .shift-label {
+    color: #555;
+    min-width: 80px;
+    font-size: 0.85rem;
+  }
+
+  .result-row .shift-label strong {
+    color: #ff4444;
+  }
+
+  .result-row .decoded-text {
+    color: #e0e0e0;
+    word-break: break-all;
+  }
+
+  .result-row.selected {
+    background: #0a2a0a;
+    border-color: #00ff88;
+  }
+
+  .badge {
+    color: #00ff88;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    margin-left: auto;
+  }
 }

@@ -296,4 +296,57 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.ctrlKey && e.key === 'Enter') decryptBtn.click();
   });
 
+  const MESSAGE = "QJ HTIJ XJHWJY JXY HFMJ IFSX QJ KNHMNJW OFAFXHWNUY";
+
+  function caesarDecrypt(text, shift) {
+    return text.split('').map(char => {
+      const upper = char.toUpperCase();
+      if (upper >= 'A' && upper <= 'Z') {
+        const code = ((upper.charCodeAt(0) - 65 - shift + 26) % 26) + 65;
+        return String.fromCharCode(code);
+      }
+      return char;
+    }).join('');
+  }
+
+  function bruteForce() {
+    const container = document.getElementById('results-list');
+    const wrapper = document.getElementById('results-container');
+    container.innerHTML = '';
+    wrapper.style.display = 'block';
+
+    for (let shift = 1; shift <= 25; shift++) {
+      const decrypted = caesarDecrypt(MESSAGE, shift);
+
+      const row = document.createElement('div');
+      row.classList.add('result-row');
+
+      row.innerHTML = `
+      <span class="shift-label">Décalage <strong>-${shift}</strong></span>
+      <span class="decoded-text">${decrypted}</span>
+    `;
+
+      row.addEventListener('click', () => {
+        const isSelected = row.classList.contains('selected');
+
+        // Reset toutes les lignes
+        document.querySelectorAll('.result-row').forEach(r => {
+          r.classList.remove('selected');
+          const badge = r.querySelector('.badge');
+          if (badge) badge.remove();
+        });
+
+        // Sélectionner la ligne cliquée si elle ne l'était pas déjà
+        if (!isSelected) {
+          row.classList.add('selected');
+          const badge = document.createElement('span');
+          badge.classList.add('badge');
+          badge.textContent = ' Message identifié';
+          row.appendChild(badge);
+        }
+      });
+
+      container.appendChild(row);
+    }
+  }
 });
