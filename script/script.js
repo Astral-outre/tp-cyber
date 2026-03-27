@@ -151,3 +151,32 @@ const dechiffrerMessage = (texteChiffre, cle) => {
 };
 
 
+/* ════════════════════════════════════════════════════════════
+   SECTION 3 — Utilitaire UI (Toast)
+════════════════════════════════════════════════════════════ */
+
+/**
+ * Affiche une notification toast temporaire en bas à droite.
+ * La classe CSS `.visible` déclenche l'animation d'apparition.
+ * Un timer masque automatiquement le toast après 3 secondes.
+ *
+ * @param {string} message        — Texte à afficher
+ * @param {'success'|'error'|''} type — Variante colorée (optionnel)
+ */
+const showToast = (message, type = '') => {
+  const toast = document.getElementById('toast');
+
+  toast.textContent = message;
+  toast.className = `toast visible ${type}`; // applique les classes de style
+
+  // Annule un éventuel timer précédent pour éviter la superposition
+  clearTimeout(toast._timer);
+
+  // Cache le toast après 3 secondes
+  toast._timer = setTimeout(() => {
+    toast.className = 'toast'; // retire .visible → déclenche l'animation de sortie
+  }, 3000);
+};
+
+
+
