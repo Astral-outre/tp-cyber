@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- ── Encodage et viewport responsive ── -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TP CYBER</title>
+
+  <!-- ── Feuille de style principale ── -->
+  <link rel="stylesheet" href="../style/style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     Conteneur principal centré (flexbox)
+══════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- ── Encart explicatif de l'algorithme (toggle) ── -->
+  <div class="algo-info" id="algoInfo">
+
+    <!-- Bouton qui ouvre/ferme l'explication -->
+    <button class="info-toggle" id="infoToggle" aria-expanded="false">
+      Comment fonctionne le tp de cyber ? <span class="arrow">▼</span>
+    </button>
+
+    <!-- Contenu masqué par défaut (hidden géré en JS) -->
+    <div class="info-content" id="infoContent" hidden>
+      <ol>
+        <li>
+          <strong>Vigenère Unicode :</strong>
+          chaque caractère est décalé par la valeur de la clé cyclée
+          (comme Vigenère, mais sur tous les Unicode, pas juste A-Z).
+        </li>
+        <li>
+          <strong>Décalage positionnel :</strong>
+          la position du caractère (× 3) est ajoutée au décalage,
+          rendant chaque position unique.
+        </li>
+        <li>
+          <strong>Inversion :</strong>
+          la chaîne résultante est renversée.
+        </li>
+        <li>
+          <strong>Base64 :</strong>
+          le tout est encodé en Base64 pour un rendu lisible et transportable.
+        </li>
+      </ol>
+      <p>
+        Le déchiffrement applique ces étapes dans l'ordre inverse :
+        Base64 → inversion → dé-décalage positionnel → Vigenère inverse.
+      </p>
+    </div>
+  </div><!-- /algo-info -->
