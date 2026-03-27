@@ -52,3 +52,65 @@
       </p>
     </div>
   </div><!-- /algo-info -->
+
+  <!-- ── Champ de saisie de la clé secrète ── -->
+  <div class="form-group">
+    <label for="keyInput"> Clé secrète</label>
+    <input
+            type="text"
+            id="keyInput"
+            placeholder="Entrez votre clé secrète…"
+            autocomplete="off"
+            spellcheck="false"
+    />
+  </div>
+
+  <!-- ── Zone double panneau : clair ⇄ chiffré ── -->
+  <div class="panels">
+
+    <!-- Panneau gauche : message en clair + bouton chiffrer -->
+    <div class="panel">
+      <label for="plainText"> Message clair</label>
+      <textarea
+              id="plainText"
+              placeholder="Saisissez votre message ici…"
+              rows="5"
+              spellcheck="false"
+      ></textarea>
+      <button class="btn btn-encrypt" id="encryptBtn"> Chiffrer</button>
+    </div>
+
+    <!-- Séparateur visuel central -->
+    <div class="divider">⇄</div>
+
+    <!-- Panneau droit : résultat chiffré (readonly) + bouton déchiffrer -->
+    <div class="panel">
+      <label for="cipherText"> Message chiffré</label>
+      <textarea
+              id="cipherText"
+              placeholder="Le résultat chiffré apparaîtra ici…"
+              rows="5"
+              readonly
+              spellcheck="false"
+      ></textarea>
+      <button class="btn btn-decrypt" id="decryptBtn"> Déchiffrer</button>
+    </div>
+
+  </div><!-- /panels -->
+
+  <!-- ── Section résultat du déchiffrement (masquée jusqu'à utilisation) ── -->
+  <div class="result-section" id="resultSection" hidden>
+    <label> Message déchiffré (vérification)</label>
+    <div class="result-box" id="decryptedResult"></div>
+  </div>
+
+  <!-- ── Toast de notification (succès / erreur) ── -->
+  <div class="toast" id="toast"></div>
+
+</div><!-- /container -->
+
+<!-- ── Script principal chargé en dernier pour accéder au DOM ── -->
+<script src="../script/script.js"></script>
+
+</body>
+</html>
